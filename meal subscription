@@ -1,0 +1,28 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract MealSubscription {
+    address public subscriber;
+    mapping(address => uint256) public subscriptionPayments;
+
+    constructor() {
+        subscriber = msg.sender;
+    }
+
+    function subscribe(uint256 months, uint256 paymentAmount) public {
+        // Validation checks using require()
+        require(msg.sender == subscriber, "Only the user can subscribe");
+    
+
+        // Ensure a specific condition using assert()
+        assert(months >= 3); // minimum package is for three months 
+
+        
+        if (paymentAmount < 100) {  // Assuming the payment is in a smaller unit (e.g., cents)
+            revert("Insufficient payment for subscription");
+        }
+
+        // Process subscription
+        subscriptionPayments[msg.sender] += paymentAmount;
+    }
+}
